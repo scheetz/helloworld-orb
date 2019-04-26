@@ -33,7 +33,6 @@ jobs:
                 echo "No TARGET_ACCOUNTS to apply ECR policy" 1>&2
               fi
 
-              TARGET_ACCOUNT
               for TARGET_ACCOUNT in ${TARGET_ACCOUNTS/,/ }; do
                 ARN_STRING="arn:aws:iam::$TARGET_ACCOUNT:root"
                 NEW_POLICY=$(echo "
@@ -78,7 +77,7 @@ jobs:
                   if [ $CHECK_POLICY -gt 0 ]; then
                     break
                   fi
-                  sleep .1
+                  sleep .$i
                 done
               done
 
