@@ -13,7 +13,10 @@ jobs:
           name: "Set org and repo vars"
           command: |
             org_repo=$(git config --local remote.origin.url | sed -e 's/\.git$//' -e 's,//[^/]*/,,g' -e 's,.*:,,' -e 's#/$##' | tr '[:upper:]' '[:lower:]')
-            echo 'export ORG_REPO="$org_repo"' >> $BASH_ENV
+            echo "export ORG_REPO='$org_repo'" >> $BASH_ENV
+      - run:
+          name: "Echo org"
+          command: echo "$ORG_REPO"
       - aws-ecr/build-and-push-image:
           create-repo: true
           repo: $ORG_REPO
