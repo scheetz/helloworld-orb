@@ -68,9 +68,7 @@ jobs:
               FINAL_COMPLETE=$(echo $BASE | jq --arg policy "$(echo $POLICY_TEXT | jq -r '. | @json')" '.policyText=$policy')
               aws ecr set-repository-policy --repository-name=$ORG_REPO --cli-input-json "$FINAL_COMPLETE" 1>&2
               for i in {0..10}; do
-                set +e
                 local CHECK_POLICY=$( aws ecr get-repository-policy --repository-name $ORG_REPO | grep -c $TARGET_ACCOUNT )
-                set -e
                 if [ $CHECK_POLICY -gt 0 ]; then
                   break
                 fi
