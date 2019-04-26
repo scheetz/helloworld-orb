@@ -84,7 +84,3 @@ workflows:
     jobs:
     - ctrz:
         context: ecr
-    - apply_read_permissions:
-        context: ecr
-        requires:
-        - ctrz
