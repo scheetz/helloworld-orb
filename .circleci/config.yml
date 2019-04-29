@@ -14,7 +14,7 @@ jobs:
           command: |
             org_repo=$(git config --local remote.origin.url | sed -e 's/\.git$//' -e 's,//[^/]*/,,g' -e 's,.*:,,' -e 's#/$##' | tr '[:upper:]' '[:lower:]')
             echo "export ORG_REPO='$org_repo'" >> $BASH_ENV
-            pr_tag=${CIRCLE_PULL_REQUEST:+pr$CIRCLE_BUILD_NUM}
+            pr_tag=${CIRCLE_PULL_REQUEST:+pr${CIRCLE_PULL_REQUEST##*/}_$CIRCLE_BUILD_NUM}
             branch=$(if [[ "$CIRCLE_BRANCH" = "master" ]]; then echo "latest"; else echo $CIRCLE_BRANCH; fi)
             tag=${CIRCLE_TAG:=${pr_tag:=$branch}}
             echo "export TAG='$tag'" >> $BASH_ENV
