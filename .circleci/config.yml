@@ -23,6 +23,7 @@ jobs:
           command: |
             echo "$ORG_REPO"
             echo "$TAG"
+            env | grep -e PR -e PULL
       - aws-ecr/build-and-push-image:
           create-repo: true
           repo: $ORG_REPO
