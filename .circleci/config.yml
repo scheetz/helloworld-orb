@@ -14,11 +14,14 @@ jobs:
           command: |
             org_repo=$(git config --local remote.origin.url | sed -e 's/\.git$//' -e 's,//[^/]*/,,g' -e 's,.*:,,' -e 's#/$##' | tr '[:upper:]' '[:lower:]')
             echo "export ORG_REPO='$org_repo'" >> $BASH_ENV
-            tag=${CIRCLE_TAG:latest}
+            pr_tag=${CIRCLE_BUILD_NUM:+pr$CIRCLE_BUILD_NUM}
+            tag=${CIRCLE_TAG:=${pr_tag:=latest}}
             echo "export TAG='$tag'" >> $BASH_ENV
       - run:
-          name: "Echo org"
-          command: echo "$ORG_REPO"
+          name: "Echo vars"
+          command: |
+            echo "$ORG_REPO"
+            echo "$TAG"
       - aws-ecr/build-and-push-image:
           create-repo: true
           repo: $ORG_REPO
