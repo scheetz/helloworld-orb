@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@4.0.1
+  helm-tools: paperspace/helm-tools@0.0.5
 
 jobs:
   ctrz:
@@ -91,3 +92,7 @@ workflows:
         filters:
           tags:
             only: /.*/
+    - helm-tools/package_and_publish:
+        chart_name: $ORG_REPO
+        chart_version: 1.0
+
